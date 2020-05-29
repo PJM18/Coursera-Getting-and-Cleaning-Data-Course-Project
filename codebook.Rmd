@@ -1,0 +1,60 @@
+---
+title: "codebook"
+author: "PM"
+date: "29 5 2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+The run_analysis.R script prepares the provided data and performs the 5 steps outline in the Getting and Cleaning Data Course Project 
+   
+0.1Download the dataset
+    Dataset downloaded manually and unzipped in the working directory
+
+0.2.Assign each dataframe to variables
+        features <- features.txt : 561 rows, 2 columns
+        The features selected for this database are taken from the accelerometer and gyroscope 3-axial raw signals tAcc-XYZ and tGyro-XYZ.
+        activities <- activity_labels.txt : 6 rows, 2 columns
+        List of activities performed when the corresponding measurements were taken and its codes (labels)
+        subject_test <- test/subject_test.txt : 2947 rows, 1 column
+        contains test data of 9/30 volunteer test subjects being observed
+        x_test <- test/X_test.txt : 2947 rows, 561 columns
+        contains recorded features test data
+        y_test <- test/y_test.txt : 2947 rows, 1 columns
+        contains test data of activities’code labels
+        subject_train <- test/subject_train.txt : 7352 rows, 1 column
+        contains train data of 21/30 volunteer subjects being observed
+        x_train <- test/X_train.txt : 7352 rows, 561 columns
+        contains recorded features train data
+        y_train <- test/y_train.txt : 7352 rows, 1 columns
+        contains train data of activities’code labels
+
+1.Merge the training and the test sets into one data set
+        X (10299 rows, 561 columns) merges x_train and x_test using the rbind() function
+        Y (10299 rows, 1 column) merges y_train and y_test using the rbind() function
+        subject (10299 rows, 1 column) is created by merging subject_train and subject_test with the rbind() function
+        complete_data (10299 rows, 563 column) is created by merging Subject, Y and X using the cbind() function
+
+2.Extract only the measurements on the mean and standard deviation for each measurement
+        complete_data_tidy (10299 rows, 88 columns) is created by subsetting complete_data, selecting the columns: subject, code and the measurements on the mean and standard deviation (std) for each measurement
+
+3.Use descriptive activity names to name the activities in the data set
+        Entire numbers in the code column of the complete_data_tidy set replaced with corresponding activity extracted from second column of the activities variable
+
+4.Appropriately label the data set with descriptive variable names
+        code column in complete_data_tidy renamed into activities
+        All Acc in column’s name replaced by Accelerometer
+        All Gyro in column’s name replaced by Gyroscope
+        All BodyBody in column’s name replaced by Body
+        All Mag in column’s name replaced by Magnitude
+        All start with character f in column’s name replaced by Frequency
+        All start with character t in column’s name replaced by Time
+
+5.From the data set in step 4, create a second, independent tidy data set with the average of each variable for each activity and each subject
+        Results (180 rows, 88 columns) is created by sumarizing complete_data_tody taking the means of each variable for each activity and each subject, after grouping them by subject and activity.
+        Export FinalData into Results.txt file.
+
+
+
